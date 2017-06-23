@@ -13,13 +13,13 @@ module Duckling.Time.EN.Corpus
   , negativeCorpus
   ) where
 
-import Prelude
 import Data.String
+import Prelude
 
+import Duckling.Testing.Types hiding (examples)
 import Duckling.Time.Corpus
 import Duckling.Time.Types hiding (Month)
 import Duckling.TimeGrain.Types hiding (add)
-import Duckling.Testing.Types hiding (examples)
 
 corpus :: Corpus
 corpus = (testContext, allExamples)
@@ -798,6 +798,17 @@ allExamples = concat
   , examples (datetimeInterval ((2013, 3, 21, 0, 0, 0), (2013, 4, 1, 0, 0, 0)) Day)
              [ "late March"
              ]
+  , examples (datetimeInterval ((2013, 10, 25, 18, 0, 0), (2013, 10, 28, 0, 0, 0)) Hour)
+             [ "last weekend of October"
+             , "last week-end in October"
+             , "last week end of October"
+             ]
+  , examples (datetimeInterval ((2013, 7, 26, 18, 0, 0), (2013, 7, 29, 0, 0, 0)) Hour)
+             [ "last wkend of July"
+             ]
+  , examples (datetimeInterval ((2017, 10, 27, 18, 0, 0), (2017, 10, 30, 0, 0, 0)) Hour)
+             [ "last weekend of October 2017"
+             ]
   , examples (datetimeInterval ((2013, 9, 6, 8, 5, 0), (2013, 9, 6, 9, 16, 0)) Minute)
              [ "6 Sep 0805 - 0915"
              ]
@@ -805,5 +816,4 @@ allExamples = concat
              [ "6.6.16"
              , "06.06.2016"
              , "6.6.2016"
-             ]
   ]
