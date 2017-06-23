@@ -798,4 +798,12 @@ allExamples = concat
   , examples (datetimeInterval ((2013, 3, 21, 0, 0, 0), (2013, 4, 1, 0, 0, 0)) Day)
              [ "late March"
              ]
+  , examples (datetimeInterval ((2013, 9, 6, 8, 5, 0), (2013, 9, 6, 9, 16, 0)) Minute)
+             [ "6 Sep 0805 - 0915"
+             ]
+  , examples (datetime (2016, 6, 6, 0, 0, 0) Day)
+             [ "6.6.16"
+             , "06.06.2016"
+             , "6.6.2016"
+             ]
   ]

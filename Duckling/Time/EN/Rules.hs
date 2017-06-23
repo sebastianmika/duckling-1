@@ -683,6 +683,22 @@ ruleMMDDYYYY = Rule
       _ -> Nothing
   }
 
+ruleddMMyyyy :: Rule
+ruleddMMyyyy = Rule
+  { name = "dd.mm.yyyy"
+  , pattern =
+    [ regex "([012]?[1-9]|10|20|30|31)\\.(0?[1-9]|10|11|12)\\.(\\d{2,4})"
+    ]
+  , prod = \tokens -> case tokens of
+      (Token RegexMatch (GroupMatch (m1:m2:m3:_)):_) -> do
+        y <- parseInt m3
+        m <- parseInt m2
+        d <- parseInt m1
+        tt $ yearMonthDay y m d
+      _ -> Nothing
+  }
+
+
 ruleYYYYMMDD :: Rule
 ruleYYYYMMDD = Rule
   { name = "yyyy-mm-dd"
@@ -927,6 +943,7 @@ ruleIntervalDash = Rule
 
 ruleIntervalFrom :: Rule
 ruleIntervalFrom = Rule
+-- TODO Fix things like "from 6th until 9th of September" to assume next 6th as start
   { name = "from <datetime> - <datetime> (interval)"
   , pattern =
     [ regex "from"
@@ -967,6 +984,24 @@ ruleIntervalTODDash = Rule
   , prod = \tokens -> case tokens of
       (Token Time td1:_:Token Time td2:_) ->
         Token Time <$> interval TTime.Closed td1 td2
+      _ -> Nothing
+  }
+
+ruleIntervalTODDashMilitary :: Rule
+ruleIntervalTODDashMilitary = Rule
+  { name = "hhmm - hhmm (interval)"
+  , pattern =
+    [ regex "((?:[01]?\\d)|(?:2[0-3]))([0-5]\\d)"
+    , regex "\\-|:|to|th?ru|through|(un)?til(l)?"
+    , regex "((?:[01]?\\d)|(?:2[0-3]))([0-5]\\d)"
+    ]
+  , prod = \tokens -> case tokens of
+      (Token RegexMatch (GroupMatch (hh1:mm1:_)):_:Token RegexMatch (GroupMatch (hh2:mm2:_)):_) -> do
+        h1 <- parseInt hh1
+        m1 <- parseInt mm1
+        h2 <- parseInt hh2
+        m2 <- parseInt mm2
+        Token Time <$> interval TTime.Closed (hourMinute True h1 m1) (hourMinute True h2 m2)
       _ -> Nothing
   }
 
@@ -1567,6 +1602,7 @@ rules =
   , ruleQuarterAfterHOD
   , ruleHalfHOD
   , ruleMMDDYYYY
+  , ruleddMMyyyy
   , ruleYYYYMMDD
   , ruleMMDD
   , ruleNoonMidnightEOD
@@ -1587,6 +1623,7 @@ rules =
   , ruleIntervalFrom
   , ruleIntervalBetween
   , ruleIntervalTODDash
+  , ruleIntervalTODDashMilitary
   , ruleIntervalTODFrom
   , ruleIntervalTODAMPM
   , ruleIntervalTODBetween
