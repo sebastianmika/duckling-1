@@ -297,6 +297,7 @@ allExamples = concat
              , "a quarter past 3pm"
              , "3:15 in the afternoon"
              , "15:15"
+             , "15h15"
              , "3:15pm"
              , "3:15PM"
              , "3:15p"
@@ -317,6 +318,7 @@ allExamples = concat
              , "330 p.m."
              , "3:30 p m"
              , "3:30"
+             , "3h30"
              , "half three"
              ]
   , examples (datetime (2013, 2, 12, 15, 23, 24) Second)

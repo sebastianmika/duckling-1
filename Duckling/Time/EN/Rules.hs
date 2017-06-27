@@ -482,12 +482,12 @@ ruleTODOClock = Rule
 ruleHHMM :: Rule
 ruleHHMM = Rule
   { name = "hh:mm"
-  , pattern = [regex "((?:[01]?\\d)|(?:2[0-3]))[:.]([0-5]\\d)"]
+  , pattern = [regex "((?:[01]?\\d)|(?:2[0-3]))[:.h]([0-5]\\d)"]
   , prod = \tokens -> case tokens of
       (Token RegexMatch (GroupMatch (hh:mm:_)):_) -> do
         h <- parseInt hh
         m <- parseInt mm
-        tt $ hourMinute True h m
+        tt $ hourMinute (h < 12) h m
       _ -> Nothing
   }
 
@@ -501,7 +501,7 @@ ruleHHMMLatent = Rule
       (Token RegexMatch (GroupMatch (hh:mm:_)):_) -> do
         h <- parseInt hh
         m <- parseInt mm
-        tt . mkLatent $ hourMinute True h m
+        tt . mkLatent $ hourMinute (h < 12) h m
       _ -> Nothing
   }
 
@@ -514,7 +514,7 @@ ruleHHMMSS = Rule
         h <- parseInt hh
         m <- parseInt mm
         s <- parseInt ss
-        tt $ hourMinuteSecond True h m s
+        tt $ hourMinuteSecond (h < 12) h m s
       _ -> Nothing
   }
 
@@ -529,7 +529,7 @@ ruleMilitaryAMPM = Rule
       (Token RegexMatch (GroupMatch (hh:mm:_)):Token RegexMatch (GroupMatch (ap:_)):_) -> do
         h <- parseInt hh
         m <- parseInt mm
-        tt . timeOfDayAMPM (hourMinute True h m) $
+        tt . timeOfDayAMPM (hourMinute (h < 12) h m) $
           Text.toLower ap == "a"
       _ -> Nothing
   }
@@ -1012,7 +1012,8 @@ ruleIntervalTODDashMilitary = Rule
         m1 <- parseInt mm1
         h2 <- parseInt hh2
         m2 <- parseInt mm2
-        Token Time <$> interval TTime.Closed (hourMinute True h1 m1) (hourMinute True h2 m2)
+        htype <- Just ((h1 < 12) && (h2 < 12))
+        Token Time <$> interval TTime.Closed (hourMinute htype h1 m1) (hourMinute htype h2 m2)
       _ -> Nothing
   }
 
