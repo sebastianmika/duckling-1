@@ -36,6 +36,13 @@ negativeCorpus = (testContext, examples)
       , "in 61"
       , "this one"
       , "this past one"
+      , "at single"
+      , "at a couple of"
+      , "at pairs"
+      , "at a few"
+      , "at dozens"
+      , "single o'clock"
+      , "dozens o'clock"
       ]
 
 allExamples :: [Example]
@@ -322,7 +329,8 @@ allExamples = concat
              , "half three"
              ]
   , examples (datetime (2013, 2, 12, 15, 23, 24) Second)
-             ["15:23:24"]
+             [ "15:23:24"
+             ]
   , examples (datetime (2013, 2, 12, 11, 45, 0) Minute)
              [ "a quarter to noon"
              , "11:45am"
@@ -336,13 +344,17 @@ allExamples = concat
              , "in the evening at eight"
              ]
   , examples (datetime (2013, 9, 20, 19, 30, 0) Minute)
-             ["at 7:30 PM on Fri, Sep 20"]
+             [ "at 7:30 PM on Fri, Sep 20"
+             ]
   , examples (datetime (2013, 2, 16, 9, 0, 0) Hour)
-             ["at 9am on Saturday"]
+             [ "at 9am on Saturday"
+             ]
   , examples (datetime (2013, 2, 16, 9, 0, 0) Hour)
-             ["on Saturday for 9am"]
+             [ "on Saturday for 9am"
+             ]
   , examples (datetime (2014, 7, 18, 19, 0, 0) Minute)
-             ["Fri, Jul 18, 2014 07:00 PM"]
+             [ "Fri, Jul 18, 2014 07:00 PM"
+             ]
   , examples (datetime (2013, 2, 12, 4, 30, 1) Second)
              [ "in a sec"
              , "one second from now"
@@ -357,9 +369,16 @@ allExamples = concat
              [ "in 2 minutes"
              , "in 2 more minutes"
              , "2 minutes from now"
+             , "in a couple of minutes"
+             , "in a pair of minutes"
+             ]
+  , examples (datetime (2013, 2, 12, 4, 33, 0) Second)
+             [ "in three minutes"
+             , "in a few minutes"
              ]
   , examples (datetime (2013, 2, 12, 5, 30, 0) Second)
-             ["in 60 minutes"]
+             [ "in 60 minutes"
+             ]
   , examples (datetime (2013, 2, 12, 4, 45, 0) Second)
              [ "in a quarter of an hour"
              , "in 1/4h"
@@ -641,11 +660,14 @@ allExamples = concat
              , "July 13 thru 15"
              , "July 13 through 15"
              , "July 13 - July 15"
+             , "from July 13-15"
              ]
   , examples (datetimeInterval ((2013, 8, 8, 0, 0, 0), (2013, 8, 13, 0, 0, 0)) Day)
-             ["Aug 8 - Aug 12"]
+             [ "Aug 8 - Aug 12"
+             ]
   , examples (datetimeInterval ((2013, 2, 12, 9, 30, 0), (2013, 2, 12, 11, 1, 0)) Minute)
-             ["9:30 - 11:00"]
+             [ "9:30 - 11:00"
+             ]
   , examples (datetimeInterval ((2013, 2, 14, 9, 30, 0), (2013, 2, 14, 11, 1, 0)) Minute)
              [ "from 9:30 - 11:00 on Thursday"
              , "between 9:30 and 11:00 on thursday"
